@@ -56,11 +56,44 @@ public class Player {
         return null;
     } 
 
+    // Return list of card integers
+    public String showHand(){
+        String cards = "";
+        for (Card c: playerHand){
+            cards += c.getValue() + " ";
+        }
+        return cards;
+    }
+
+    public boolean checkWin(){
+        //select the first card in the hand
+        int firstCard = playerHand.get(0).getValue();
+        boolean win = true;
+        for (Card c: playerHand){
+            if (c.getValue() == firstCard){
+                continue;
+            } else {
+                win = false;
+                return win;
+            }
+        }
+        return win;
+    }
+
     public void playerTurn() {
         //checkWin();
         //drawCard();
         //decideCardToPass();
         //passCard();
         //checkWin();
+
+        drawCard();
+        Card cardToPass= decideCardToPass();
+        passCard(cardToPass);
+        if (checkWin()){
+            System.out.println("Player " + playerNumber + " wins!");
+            //Declare win
+        }
+
     }
 }
