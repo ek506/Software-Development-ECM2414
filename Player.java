@@ -35,6 +35,10 @@ public class Player {
         this.deckToDrawFrom = deckToDrawFrom;
     }
 
+    public ArrayList<Card> getPlayerHand (){
+        return playerHand;
+    }
+
     // Takes from deck and adds to hand
     public void drawCard(){
         Card drawnCard = deckToDrawFrom.drawCard(); 
@@ -56,6 +60,7 @@ public class Player {
         return null;
     } 
 
+    //Rename to toString
     // Return list of card integers
     public String showHand(){
         String cards = "";

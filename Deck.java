@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Deck {
@@ -15,6 +15,11 @@ public class Deck {
         deckCards.add(c);
     } 
 
+    public ArrayList<Card> getDeckCards(){
+        return deckCards;
+    }
+
+    //Rename to toString
     public String showDeck(){
         String cards = "";
         for (Card c: deckCards){
