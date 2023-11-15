@@ -1,0 +1,67 @@
+Player 2 initial hand 4 4 6 2 
+player 2 draws a 3 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 4 6 2 3 
+player 2 draws a 3 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 6 2 3 3 
+player 2 draws a 4 from deck 2
+player 2 discards a 6 to deck 1
+player 2 current hand is 2 3 3 4 
+player 2 draws a 3 from deck 2
+player 2 discards a 3 to deck 1
+player 2 current hand is 2 3 4 3 
+player 2 draws a 5 from deck 2
+player 2 discards a 3 to deck 1
+player 2 current hand is 2 4 3 5 
+player 2 draws a 2 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 2 3 5 2 
+player 2 draws a 2 from deck 2
+player 2 discards a 3 to deck 1
+player 2 current hand is 2 5 2 2 
+player 2 draws a 4 from deck 2
+player 2 discards a 5 to deck 1
+player 2 current hand is 2 2 2 4 
+player 2 draws a 2 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
+player 2 draws a 4 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
+player 2 draws a 4 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
+player 2 draws a 6 from deck 2
+player 2 discards a 6 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
+player 2 draws a 3 from deck 2
+player 2 discards a 3 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
+player 2 draws a 3 from deck 2
+player 2 discards a 3 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
+player 2 draws a 4 from deck 2
+player 2 discards a 4 to deck 1
+player 2 current hand is 2 2 2 2 
+player 2 wins
+player2 exits 
+player 2 final hand: 2 2 2 2 
