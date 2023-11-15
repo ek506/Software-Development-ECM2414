@@ -45,6 +45,7 @@ public class Player {
     }
 
     // Takes from deck and adds to hand
+    // Will have to check if deck is empty 
     public void drawCard(){
         Card drawnCard = deckToDrawFrom.drawCard(); 
         playerHand.add(drawnCard);
