@@ -7,14 +7,12 @@ public class CardGame {
     static ArrayList<Player> players = new ArrayList<Player>();
     static ArrayList<Deck> decks = new ArrayList<Deck>();
 
+    //End game function
 
     public static void main(String[] args) {
-        // Read input and start the game
-        // Initialize players, card decks, and threads
-        // Handle game logic as specified
         System.out.println(isValidPack("testDeck.txt", 2));
-        ArrayList<Card> cardArray = readCards("testDeck.txt");
-        ArrayList<ArrayList<Card>> splitDeck = splitDeck(cardArray, 2);
+        ArrayList<Card> cardArray = readCards("testDeck.txt");  // List of cards
+        ArrayList<ArrayList<Card>> splitDeck = splitDeck(cardArray, 2); //List of hands
         // for (Card c: cardArray){
         //     System.out.println(c.getValue());
         // }
@@ -35,8 +33,6 @@ public class CardGame {
 
     }
 
-    // End Game
-
     //Check Valid Pack
     public static boolean isValidPack(String filename, int numPlayers) {
         try {
@@ -46,25 +42,20 @@ public class CardGame {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     int card;
-
                     try {
                         card = Integer.parseInt(line);
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid card number: " + line);
                         return false;
                     }
-                    
                     if (card < 0) {
                         System.out.println("Card should not be negative: " + card);
                         return false;
                     }
                     lineCount++;
                 }
-                //scanner.close();
-
                 return lineCount % (8*numPlayers) == 0;
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filename);
             return false;
@@ -98,7 +89,6 @@ public class CardGame {
         }
     }
 
-    // Split Deck (Deal)
     //Returns a list of hands where each hand is a list of cards
     public static ArrayList<ArrayList<Card>> splitDeck(ArrayList<Card> cardArray, int numPlayers) {
         ArrayList<ArrayList<Card>> splitDeck = new ArrayList<ArrayList<Card>>();
@@ -123,12 +113,10 @@ public class CardGame {
 
     // Creates players and decks and assigns deckToPassTo and deckToDrawFrom
     public static void setUpGame(int numPlayers, ArrayList<ArrayList<Card>> hands) {
-
         //create players
         createPlayers(hands, numPlayers, players);   
         createDecks(hands, numPlayers, decks);
         
-
         //set deck to pass to
         for (int i = 0; i < numPlayers; i++) {
             int deckToPassToIndex = (i + 1) % numPlayers;
@@ -139,7 +127,6 @@ public class CardGame {
         for (int i = 0; i < numPlayers; i++) {
             players.get(i).setDeckToDrawFrom(decks.get(i));
         }
-        
     }
 
     public static void createPlayers(ArrayList<ArrayList<Card>> hands, int numPlayers, ArrayList<Player> players) {
@@ -158,5 +145,3 @@ public class CardGame {
 }
 
 
-
-// LOOK AT INPUT AND OUTPUT

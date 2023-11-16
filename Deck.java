@@ -28,7 +28,6 @@ public class Deck {
         return deckNumber;
     }
 
-    //Rename to toString
     public String showDeck(){
         String cards = "";
         for (Card c: deckCards){
@@ -49,7 +48,7 @@ public class Deck {
     //Write deck to file at end of game
     public void writeToFile(String message) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
             writer.write(message);
             writer.close();
         } catch (IOException e) {

@@ -81,7 +81,6 @@ public class Player {
     }
 
     public boolean checkWin(){
-        //select the first card in the hand
         int firstCard = playerHand.get(0).getValue();
         boolean win = true;
         for (Card c: playerHand){
@@ -96,12 +95,6 @@ public class Player {
     }
 
     public void playerTurn() {
-        //checkWin();
-        //drawCard();
-        //decideCardToPass();
-        //passCard();
-        //checkWin();
-
         drawCard();
         Card cardToPass= decideCardToPass();
         passCard(cardToPass);
@@ -111,19 +104,17 @@ public class Player {
             System.out.println("Player " + playerNumber + " wins!");
             win();
             //Declare win
-
         }
     }
 
     public void win() {
-        //tell other threads
-
+        //tell other thread
         String message = "player " + playerNumber + " wins" + "\n" + 
                         "player"  + playerNumber + " exits " + "\n" +
                         "player " + playerNumber + " final hand: " + showHand() + "\n";
         writeToFile(message, true);
-    
     }
+    
     public void writeToFile(String message, boolean append) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename, append));
