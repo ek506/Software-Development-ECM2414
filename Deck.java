@@ -36,19 +36,22 @@ public class Deck {
         return cards;
     }
 
-    //Returns card at front of queue
-    public Card drawCard(){
+    public Card drawCard() {
+        if (deckCards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty");
+        }
         return deckCards.remove(0);
     }
 
     public String toString(){
-        return "Deck " + deckNumber + ": " + showDeck();
+        return "Deck " + deckNumber + "contents: " + showDeck();
     }
 
     //Write deck to file at end of game
-    public void writeToFile(String message) {
+    public void writeToFile() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
+            String message = "Deck " + deckNumber + " contents: " + showDeck();
             writer.write(message);
             writer.close();
         } catch (IOException e) {

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.io.*;
 
-public class Player {
+public class Player implements Runnable {
     // Implement the card class with thread-safe operations
 
     //  Methods
@@ -21,7 +21,9 @@ public class Player {
     private Deck deckToDrawFrom;
     private int preferedCard;
     private String filename;
-
+    private static volatile boolean gameOver = false;               //Volatile so it changes the threads see the change immediately. Otherwise the threads may cache the value and not see the change. 
+    private static volatile int winner = -1;
+    private int numTurns = 0;
 
     public Player(int playerNumber, ArrayList<Card> playerHand){
         this.playerNumber = playerNumber;
@@ -46,11 +48,15 @@ public class Player {
 
     // Takes from deck and adds to hand
     // Will have to check if deck is empty 
-    public void drawCard(){
-        Card drawnCard = deckToDrawFrom.drawCard(); 
-        playerHand.add(drawnCard);
-        String message = "player " + playerNumber + " draws a " + drawnCard.getValue() + " from deck " + deckToDrawFrom.getDeckNumber() + "\n";
-        writeToFile(message, true);
+    public void drawCard() throws IllegalStateException {
+        try{
+            Card drawnCard = deckToDrawFrom.drawCard(); 
+            playerHand.add(drawnCard);
+            String message = "player " + playerNumber + " draws a " + drawnCard.getValue() + " from deck " + deckToDrawFrom.getDeckNumber() +"\n";
+            writeToFile(message, true);
+        } catch (IllegalStateException e){
+            throw e;
+        }
     }
 
     //Remove from hand and add to deck
@@ -95,22 +101,51 @@ public class Player {
     }
 
     public void playerTurn() {
-        drawCard();
-        Card cardToPass= decideCardToPass();
-        passCard(cardToPass);
-        String message = "player " + playerNumber + " current hand is " + showHand() + "\n";
-        writeToFile(message, true);
-        if (checkWin()){
-            System.out.println("Player " + playerNumber + " wins!");
-            win();
-            //Declare win
+        try{
+            drawCard();
+            Card cardToPass= decideCardToPass();
+            passCard(cardToPass);
+            String message = "player " + playerNumber + " current hand is " + showHand() + "\n";
+            writeToFile(message, true);
+            if (checkWin()){
+                win();
+            }
+            numTurns++;
+        } catch (IllegalStateException e) {
+            System.out.println("Deck is empty");
+            try {
+                Thread.sleep(1000); // make the thread sleep for 1 second
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
         }
     }
 
+    public void run() {
+        int maxTurns = 8 * CardGame.getNumPlayers();
+        while (!gameOver) {
+            if (numTurns > maxTurns) {
+                System.out.println("Player " + playerNumber + " has played " + maxTurns + " turns and has not won");
+                return;
+            } else {
+                playerTurn();
+            }
+        }
+        if (winner != playerNumber) {
+            printOtherPlayerWins();
+        }
+    }
+        
+
+
+
     public void win() {
         //tell other thread
+        gameOver = true;
+        winner = playerNumber;
+        System.out.println("player " + playerNumber + " wins");
         String message = "player " + playerNumber + " wins" + "\n" + 
-                        "player"  + playerNumber + " exits " + "\n" +
+                        "player "  + playerNumber + " exits " + "\n" +
                         "player " + playerNumber + " final hand: " + showHand() + "\n";
         writeToFile(message, true);
     }
@@ -130,5 +165,11 @@ public class Player {
         "\n    " + "draws from " + deckToDrawFrom.toString() + "\n    " + "passes to " + deckToPassTo.toString() ;
     }
 
+    public void printOtherPlayerWins() {
+        String message = ("player " + winner + " has informed player " + playerNumber + " that player " + winner + " has won\n"
+                        + "player " + playerNumber + " exits\n"
+                        + "player " + playerNumber + " hand: " + showHand() + "\n");
+        writeToFile(message, true);
+    }
 
 }

@@ -1,7 +1,10 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.InputStreamReader;
 
 public class CardGame {
     static ArrayList<Player> players = new ArrayList<Player>();
@@ -10,9 +13,7 @@ public class CardGame {
     //End game function
 
     public static void main(String[] args) {
-        System.out.println(isValidPack("testDeck.txt", 2));
-        ArrayList<Card> cardArray = readCards("testDeck.txt");  // List of cards
-        ArrayList<ArrayList<Card>> splitDeck = splitDeck(cardArray, 2); //List of hands
+        //System.out.println(isValidPack("testDeck.txt", 4));
         // for (Card c: cardArray){
         //     System.out.println(c.getValue());
         // }
@@ -23,14 +24,102 @@ public class CardGame {
         //         System.out.println(c.getValue());
         //     }
         // }
-        setUpGame(2, splitDeck);
-        for (int i=0; i<15; i++){
-            players.get(0).playerTurn();
-            players.get(1).playerTurn();
-        }
-        
-        
+        newGame();
 
+      
+
+    }
+
+    public static void newGame() {
+        //ask for players
+        //ask for file of deck
+        int numPlayers = inputNumPlayers();
+        String filename = inputFilename(numPlayers);
+
+        ArrayList<Card> cardArray = readCards(filename);  // List of cards
+        ArrayList<ArrayList<Card>> splitDeck = splitDeck(cardArray, numPlayers); //List of hands
+        setUpGame(numPlayers, splitDeck);
+
+        //If win with starting hand, end game
+        if (checkInitialWin()) {
+            for (Player p: players) {
+                if (!p.checkWin()) {
+                    p.printOtherPlayerWins();
+                }
+            }
+            endGame();
+            return;
+        }
+
+        ArrayList<Thread> threads = new ArrayList<>();
+        for (Player p: players) {
+            Thread playerThread = new Thread(p);        
+            playerThread.start();
+            threads.add(playerThread);
+        }
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        endGame();
+
+    }
+
+    public static boolean checkInitialWin() {
+        for (Player p: players) {
+            if (p.checkWin()) {
+                p.win();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int inputNumPlayers(){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Please enter the number of players: ");
+        int numPlayers = 0;
+        while (true) {
+            try {
+                numPlayers = Integer.parseInt(reader.readLine());
+                if (!isValidNumPlayers(numPlayers)) {
+                    System.out.println("Invalid number of players, please enter a valid number:");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException | IOException e) {
+                System.out.println("Invalid input, please enter a valid number:");
+            }
+        }
+        return numPlayers;
+    }
+
+    public static String inputFilename(int numPlayers){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Please enter location of pack to load: ");
+        String filename = "";
+        while (true) {
+            try {
+                filename = reader.readLine();
+                if (!isValidPack(filename, numPlayers)) {
+                    System.out.println("Invalid pack, please enter a valid pack:");
+                } else {
+                    break;
+                }
+            } catch (IOException e) {
+                System.out.println("Invalid input, please enter a valid pack:");
+            }
+        }
+        return filename;
+    }
+
+    //Check valid number of players
+    public static boolean isValidNumPlayers(int numPlayers) {
+        return numPlayers > 1;
     }
 
     //Check Valid Pack
@@ -59,6 +148,7 @@ public class CardGame {
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filename);
             return false;
+            //throw new IllegalArgumentException("File not found: " + filename);
         }
     }
 
@@ -141,6 +231,17 @@ public class CardGame {
             Deck deck = new Deck(i+1, hands.get(i + numPlayers));
             decks.add(deck);
         }
+    }
+
+    public static void endGame() {
+        //Print out decks to respective files
+        for (Deck d: decks){
+            d.writeToFile();
+        }
+    }
+
+    public static int getNumPlayers() {
+        return players.size();
     }
 }
 
