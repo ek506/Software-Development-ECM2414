@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestPlayer {
     private Player player1;
@@ -29,7 +30,7 @@ public class TestPlayer {
         for (int i = 0; i < 4; i++){
             hand2.add(new Card(5));
         }
-        player2 = new Player(1, hand2);
+        player2 = new Player(2, hand2);
 
         //Create a deck with x cards
         ArrayList<Card> deckCards = new ArrayList<Card>();
@@ -50,25 +51,55 @@ public class TestPlayer {
         
     }
 
+    // Test for constructor and initial setup
+    @Test
+    public void testConstructorAndInitialSetup() {
+        assertNotNull(player1);
+        assertEquals(1, player1.getPlayerNumber());
+        assertNotNull(player1.getPlayerHand());
+        assertEquals(4, player1.getPlayerHand().size());
+    }
+
+    // Test for setting and getting decks
+    @Test
+    public void testSetAndGetDecks() {
+        player1.setDeckToDrawFrom(deck2);
+        player1.setDecktoPassTo(deck1);
+        assertEquals(deck2, player1.getDeckToDrawFrom());   
+        assertEquals(deck1, player1.getDeckToPassTo());
+    }
+
+
+
     @Test
     public void testDrawCard() {
+        int initialDeckSize = deck1.getDeckCards().size();
         player1.drawCard();
-        assertEquals(5, (player1.getPlayerHand()).size());
-        assertEquals(3, (deck1.getDeckCards()).size());
+        assertEquals(initialDeckSize - 1, deck1.getDeckCards().size());
+        assertEquals(5, player1.getPlayerHand().size());
+    }
+
+    // Test for handling empty deck in drawCard
+    @Test(expected = IllegalStateException.class)
+    public void testDrawCardWithEmptyDeck() {
+        Deck emptyDeck = new Deck(3, new ArrayList<Card>());
+        player1.setDeckToDrawFrom(emptyDeck);
+        player1.drawCard();
     }
 
     @Test
     public void testPassCard() {
-        assertEquals(4, (player1.getPlayerHand()).size());
-        player1.passCard(player1.decideCardToPass());
-        assertEquals(3, (player1.getPlayerHand()).size());
-        assertEquals(5, (deck2.getDeckCards()).size());
+        Card cardToPass = player1.getPlayerHand().get(0);
+        player1.passCard(cardToPass);
+        assertFalse(player1.getPlayerHand().contains(cardToPass));
+        assertTrue(deck2.getDeckCards().contains(cardToPass));
     }
 
     @Test
-    public void testDecideCardToPassto(){
-        assertNotEquals(player1.decideCardToPass().getValue(), 1);
-        assertEquals(player1.decideCardToPass().getValue(), 2);
+    public void testDecideCardToPassTo(){
+        Card card = player1.decideCardToPass();
+        assertNotNull(card);
+        assertEquals(card.getValue(), 2);
     }
 
     @Test
@@ -77,6 +108,44 @@ public class TestPlayer {
         assertTrue(player2.checkWin());
 
     }
+
+    // Test for winning the game
+    @Test
+    public void testWinMethod() {
+        player2.win();
+        assertTrue(Player.isGameOver());
+        assertEquals(2, Player.getWinner());
+    }
+
+    // Test other player wins
+    @Test
+    public void testPrintOtherPlayerWins() throws IOException {
+        player2.win();
+        player1.printOtherPlayerWins();
+        List<String> lines = Files.readAllLines(Paths.get("player1_output.txt"));
+        List<String> lastLines = lines.subList(Math.max(lines.size() - 3, 0), lines.size());
+        String actualOutput = String.join("\n", lastLines);
+        String expectedOutput = "player 2 has informed player 1 that player 2 has won\n"
+                            + "player 1 exits\n"
+                            + "player 1 hand: " + player1.showHand();
+        
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    // Test for player turn
+    @Test
+    public void testPlayerTurn() {
+        int initialDeckToDrawFromSize = deck1.getDeckCards().size();
+        int initialDeckToPassToSize = deck2.getDeckCards().size();
+        int initialHandSize = player1.getPlayerHand().size();
+        player1.playerTurn();
+        assertEquals(initialDeckToDrawFromSize - 1, deck1.getDeckCards().size());
+        assertEquals(initialDeckToPassToSize + 1, deck2.getDeckCards().size());
+        assertNotNull(player1.getPlayerHand());
+        assertEquals(initialHandSize, player1.getPlayerHand().size());
+    }
+
+
 
     @Test
     public void testWriteToFile() throws IOException {
@@ -94,6 +163,7 @@ public class TestPlayer {
         player1.writeToFile(message3, false); // Check it overwrites file
         assertEquals(message3, readFile(filename));
     }
+
 
     private String readFile(String filename) throws IOException {
         return new String(Files.readAllBytes(Paths.get(filename)));

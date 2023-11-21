@@ -46,11 +46,31 @@ public class Player implements Runnable {
         return playerHand;
     }
 
+    public int getPlayerNumber(){
+        return playerNumber;
+    }
+
+    public Deck getDeckToPassTo(){
+        return deckToPassTo;
+    }
+
+    public Deck getDeckToDrawFrom(){
+        return deckToDrawFrom;
+    }
+
+    public static boolean isGameOver() {
+        return gameOver;
+    }
+
+    public static int getWinner() {
+        return winner;
+    }
+
     // Takes from deck and adds to hand
     // Will have to check if deck is empty 
     public void drawCard() throws IllegalStateException {
         try{
-            Card drawnCard = deckToDrawFrom.drawCard(); 
+            Card drawnCard = deckToDrawFrom.removeCard(); 
             playerHand.add(drawnCard);
             String message = "player " + playerNumber + " draws a " + drawnCard.getValue() + " from deck " + deckToDrawFrom.getDeckNumber() +"\n";
             writeToFile(message, true);
@@ -160,10 +180,10 @@ public class Player implements Runnable {
         }
     }
 
-    public String toString(){
-        return "Player " + playerNumber + " has hand: " + showHand() + 
-        "\n    " + "draws from " + deckToDrawFrom.toString() + "\n    " + "passes to " + deckToPassTo.toString() ;
-    }
+    // public String toString(){
+    //     return "Player " + playerNumber + " has hand: " + showHand() + 
+    //     "\n    " + "draws from " + deckToDrawFrom.getDeckNumber() + "\n    " + "passes to " + deckToPassTo.getDeckNumber() + "\n";
+    // }
 
     public void printOtherPlayerWins() {
         String message = ("player " + winner + " has informed player " + playerNumber + " that player " + winner + " has won\n"

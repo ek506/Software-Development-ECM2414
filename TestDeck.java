@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import java.util.ArrayList;
 
 public class TestDeck {
@@ -39,21 +38,38 @@ public class TestDeck {
     }
 
     @Test
-    public void testDrawCard() {
+    public void testRemoveCard() {
         Card card = new Card(5);
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.add(card);
         Deck deck = new Deck(1, cards);
 
-        assertEquals(card, deck.drawCard());
+        assertEquals(card, deck.removeCard());
         assertFalse(deck.getDeckCards().contains(card));
+    }
+
+    // Test for drawing a card from an empty deck
+    @Test(expected = IllegalStateException.class)
+    public void testRemoveCardFromEmptyDeck() {
+        Deck emptyDeck = new Deck(2, new ArrayList<Card>());
+        emptyDeck.removeCard(); // Should throw IllegalStateException
+    }
+
+    // Test for showing deck contents
+    @Test
+    public void testShowDeck() {
+        Deck deck = new Deck(3, new ArrayList<Card>());
+        deck.addCard(new Card(1));
+        deck.addCard(new Card(2));
+        String expectedOutput = "1 2 ";
+        assertEquals(expectedOutput, deck.showDeck());
     }
 
     @Test
     public void testWriteToFile() throws IOException {
-        String message = "Test message";
+        String message = "Deck 1 contents: 2 2 2 2 ";
 
-        deck1.writeToFile(message);
+        deck1.writeToFile();
         assertEquals(message, readFile("deck1_output.txt"));
     }
 
