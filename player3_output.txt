@@ -71,6 +71,12 @@ player 3 current hand is 3 3 3 21
 player 3 draws a 32 from deck 3
 player 3 discards a 21 to deck 4
 player 3 current hand is 3 3 3 32 
+player 3 draws a 0 from deck 3
+player 3 discards a 32 to deck 4
+player 3 current hand is 3 3 3 0 
+player 3 draws a 6 from deck 3
+player 3 discards a 0 to deck 4
+player 3 current hand is 3 3 3 6 
 player 1 has informed player 3 that player 1 has won
 player 3 exits
-player 3 hand: 3 3 3 32 
+player 3 hand: 3 3 3 6 

@@ -71,6 +71,24 @@ player 4 current hand is 4 4 4 11
 player 4 draws a 21 from deck 4
 player 4 discards a 11 to deck 1
 player 4 current hand is 4 4 4 21 
+player 4 draws a 6 from deck 4
+player 4 discards a 21 to deck 1
+player 4 current hand is 4 4 4 6 
+player 4 draws a 9 from deck 4
+player 4 discards a 6 to deck 1
+player 4 current hand is 4 4 4 9 
+player 4 draws a 7 from deck 4
+player 4 discards a 9 to deck 1
+player 4 current hand is 4 4 4 7 
+player 4 draws a 21 from deck 4
+player 4 discards a 7 to deck 1
+player 4 current hand is 4 4 4 21 
+player 4 draws a 32 from deck 4
+player 4 discards a 21 to deck 1
+player 4 current hand is 4 4 4 32 
+player 4 draws a 0 from deck 4
+player 4 discards a 32 to deck 1
+player 4 current hand is 4 4 4 0 
 player 1 has informed player 4 that player 1 has won
 player 4 exits
-player 4 hand: 4 4 4 21 
+player 4 hand: 4 4 4 0 
