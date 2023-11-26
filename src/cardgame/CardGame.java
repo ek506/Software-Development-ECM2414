@@ -1,3 +1,5 @@
+package cardgame;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +22,13 @@ public class CardGame {
     static ArrayList<Deck> decks = new ArrayList<Deck>();
 
     public static void main(String[] args) {
-        newGame();
+        try{    
+            int numPlayers = inputNumPlayers();
+            String filename = inputFilename(numPlayers);
+            newGame(numPlayers, filename);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Too Many Invalid Inputs, Game Not Started");
+        }
     }
 
     /**
@@ -28,10 +36,7 @@ public class CardGame {
      * Prints the winner of the game to the console
      * 
      */
-    public static void newGame() {
-        int numPlayers = inputNumPlayers();
-        String filename = inputFilename(numPlayers);
-
+    public static void newGame(int numPlayers, String filename) {
         ArrayList<Card> cardArray = readCards(filename);  // List of cards
         ArrayList<ArrayList<Card>> splitDeck = splitDeck(cardArray, numPlayers); //List of hands
         setUpGame(numPlayers, splitDeck);
@@ -63,6 +68,8 @@ public class CardGame {
         } 
         //Once all threads are done, end game
         endGame();
+
+
     }
 
     /**
@@ -85,22 +92,29 @@ public class CardGame {
      * Loops until a valid number is entered
      * @return the number of players
      */
-    public static int inputNumPlayers(){
+    public static int inputNumPlayers() throws IllegalArgumentException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter the number of players: ");
         int numPlayers = 0;
-        while (true) {
+        int i = 0;
+        while (i < 10) {
             try {
                 numPlayers = Integer.parseInt(reader.readLine());
                 if (!isValidNumPlayers(numPlayers)) {
                     System.out.println("Invalid number of players, please enter a valid number:");
+                    i++;
                 } else {
                     break;
                 }
             } catch (NumberFormatException | IOException e) {
                 System.out.println("Invalid input, please enter a valid number:");
+                i++;
             }
         }
+        if (i == 10) {
+            throw new IllegalArgumentException("No number of players entered");
+        }
+        System.out.println("Number of players: " + numPlayers);
         return numPlayers;
     }
 
@@ -110,22 +124,29 @@ public class CardGame {
      * @param numPlayers
      * @return
      */
-    public static String inputFilename(int numPlayers){
+    public static String inputFilename(int numPlayers) throws IllegalArgumentException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter location of pack to load: ");
         String filename = "";
-        while (true) {
+        int i = 0;
+        while (i < 10) {
             try {
                 filename = reader.readLine();
                 if (!isValidPack(filename, numPlayers)) {
                     System.out.println("Invalid pack, please enter a valid pack:");
+                    i++;
                 } else {
                     break;
                 }
             } catch (IOException e) {
                 System.out.println("Invalid input, please enter a valid pack:");
+                i++;
             }
         }
+        if (i == 10) {
+            throw new IllegalArgumentException("No filename entered");
+        }
+        System.out.println("Pack to load: " + filename);
         return filename;
     }
 

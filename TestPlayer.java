@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.After;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
@@ -49,6 +50,35 @@ public class TestPlayer {
         player1.setDeckToDrawFrom(deck1);
         player1.setDecktoPassTo(deck2);
         
+    }
+
+    @After
+    public void tearDown() {
+        // Your cleanup code goes here.
+        // For example, you can set objects to null to allow for garbage collection,
+        // delete temporary files, or close any resources opened in the tests.
+        Player.resetGameOver();
+        Player.resetWinner();
+
+        player1 = null;
+        player2 = null;
+        deck1 = null;
+        deck2 = null;
+
+        // If you created any files during the tests, you can delete them here:
+        // For example, if you have a file named "player1_output.txt"
+        try {
+            Files.deleteIfExists(Paths.get("player1_output.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Files.deleteIfExists(Paths.get("player2_output.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally, you can rethrow the exception if you want the test to fail in case of an error during file deletion
+            // throw new RuntimeException("Failed to delete test file", e);
+        }
     }
 
     // Test for constructor and initial setup

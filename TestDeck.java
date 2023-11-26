@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import org.junit.After;
 
 public class TestDeck {
     private Deck deck1;
@@ -16,6 +17,18 @@ public class TestDeck {
             deckCards.add(new Card(2));
         }
         deck1 = new Deck(1, deckCards);
+    }
+
+    @After
+    public void tearDown() {
+        // Delete the file after each test
+        try {
+            Files.deleteIfExists(Paths.get("deck1_output.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally, you can rethrow the exception if you want the test to fail in case of an error during file deletion
+            // throw new RuntimeException("Failed to delete test file", e);
+        }
     }
 
     @Test

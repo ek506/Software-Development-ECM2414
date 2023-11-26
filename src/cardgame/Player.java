@@ -1,3 +1,4 @@
+package cardgame;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -53,6 +54,14 @@ public class Player implements Runnable {
         this.preferedCard = playerNumber;
         this.filename = "player" + playerNumber + "_output.txt";
         writeToFile("Player " + playerNumber + " initial hand " + showHand() + "\n", false);
+    }
+
+    public static void resetGameOver() {
+        gameOver = false;
+    }
+    
+    public static void resetWinner() {
+        winner = -1;
     }
 
     /**
@@ -272,5 +281,6 @@ public class Player implements Runnable {
                         + "player " + playerNumber + " hand: " + showHand() + "\n");
         writeToFile(message, true);
     }
+
 
 }

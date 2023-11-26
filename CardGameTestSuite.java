@@ -1,3 +1,4 @@
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -5,7 +6,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     TestDeck.class,
     TestPlayer.class,
-    TestCard.class
+    TestCard.class,
+    TestCardGame.class
 })
 public class CardGameTestSuite {
     // This class remains empty, it is used only as a holder for the above annotations
