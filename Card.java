@@ -1,4 +1,4 @@
-package cardgame;
+
 
 /**
  * Represents a card with an integer value

@@ -1,10 +1,4 @@
 import org.junit.Test;
-
-import src.cardgame.Card;
-import src.cardgame.CardGame;
-import src.cardgame.Deck;
-import src.cardgame.Player;
-
 import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
