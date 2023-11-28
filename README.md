@@ -11,8 +11,8 @@ The folder 'TestPacks' contains files that are used as test packs in some of the
 
 Uses Junit 4
 
-Path to junit: ./lib/junit-4.13.2.jar
-Path to hamcrest-core: ./lib/hamcrest-core-1.3.jar
+Run Test suite:
+java -cp "lib/junit-4.13.2.jar;lib/hamcrest-core-1.3.jar;bin" org.junit.runner.JUnitCore CardGameTestSuite
 
 ### Note:
 If a card pack file doesn't contain at least four cards that have the value as a players number then no players will win and the game will terminate without a winner and a message will print to the console.
