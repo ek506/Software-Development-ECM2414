@@ -1,6 +1,6 @@
 # Software-Development-ECM2414
 
-### CardGAmeTestSuite.java runs the following test classes: 
+### CardGameTestSuite.java runs the following test classes: 
     TestDeck.class,
     TestPlayer.class,
     TestCard.class,

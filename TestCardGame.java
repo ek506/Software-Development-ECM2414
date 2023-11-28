@@ -24,8 +24,12 @@ public class TestCardGame {
         try {
             Files.deleteIfExists(Paths.get("deck1_output.txt"));
             Files.deleteIfExists(Paths.get("deck2_output.txt"));
+            Files.deleteIfExists(Paths.get("deck3_output.txt"));
+            Files.deleteIfExists(Paths.get("deck4_output.txt"));
             Files.deleteIfExists(Paths.get("player1_output.txt"));
             Files.deleteIfExists(Paths.get("player2_output.txt"));
+            Files.deleteIfExists(Paths.get("player3_output.txt"));
+            Files.deleteIfExists(Paths.get("player4_output.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -212,6 +216,12 @@ public class TestCardGame {
     public void testPlayerOneWins() {
         CardGame.newGame(2, "TestPacks/Valid2PlayerPack_Player1Wins.txt");
         assertEquals(1, Player.getWinner());
+    }
+
+    @Test 
+    public void testNoPlayerWins(){
+        CardGame.newGame(4,"TestPacks/4PlayerPackNoWinner.txt");
+        assertEquals(-1, Player.getWinner());
     }
 
 
