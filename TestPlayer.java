@@ -115,7 +115,7 @@ public class TestPlayer {
     }
 
     @Test
-    public void testDecideCardToPassTo(){
+    public void testDecideCardToPass(){
         Card card = player1.decideCardToPass();
         assertNotNull(card);
         assertEquals(card.getValue(), 2);
@@ -131,7 +131,7 @@ public class TestPlayer {
 
     // Test for winning the game
     @Test
-    public void testWinMethod() {
+    public void testWin() {
         player2.win();
         assertTrue(Player.isGameOver());
         assertEquals(2, Player.getWinner());

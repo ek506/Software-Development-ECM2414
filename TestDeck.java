@@ -40,7 +40,7 @@ public class TestDeck {
     }
 
     @Test
-    public void testAddCardAndGetDeckCards() {
+    public void testAddCard() {
         Deck deck = new Deck(1, new ArrayList<Card>());
         Card card = new Card(5);
         deck.addCard(card);

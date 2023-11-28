@@ -88,8 +88,8 @@ public class Player implements Runnable {
     }
 
     /**
-     * Sets the player's prefered card to the card value that is passed in
-     * @param preferedCard the card value that the player prefers to keep
+     * Gets the player's hand and returns it
+     * @return playerHand The list of cards the player has
      */
     public ArrayList<Card> getPlayerHand (){
         return playerHand;
