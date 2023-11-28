@@ -33,14 +33,14 @@ public class TestPlayer {
         }
         player2 = new Player(2, hand2);
 
-        //Create a deck with x cards
+        //Create a deck1 with 4 cards
         ArrayList<Card> deckCards = new ArrayList<Card>();
         for (int i = 0; i < 4; i++){
             deckCards.add(new Card(2));
         }
         deck1 = new Deck(1, deckCards);
 
-        //Create deck2 with x cards
+        //Create deck2 with 4 cards
         ArrayList<Card> deckCards2 = new ArrayList<Card>();
         for (int i = 0; i < 4; i++){
             deckCards2.add(new Card(3));
@@ -54,9 +54,6 @@ public class TestPlayer {
 
     @After
     public void tearDown() {
-        // Your cleanup code goes here.
-        // For example, you can set objects to null to allow for garbage collection,
-        // delete temporary files, or close any resources opened in the tests.
         Player.resetGameOver();
         Player.resetWinner();
 
@@ -65,19 +62,11 @@ public class TestPlayer {
         deck1 = null;
         deck2 = null;
 
-        // If you created any files during the tests, you can delete them here:
-        // For example, if you have a file named "player1_output.txt"
         try {
             Files.deleteIfExists(Paths.get("player1_output.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             Files.deleteIfExists(Paths.get("player2_output.txt"));
         } catch (IOException e) {
             e.printStackTrace();
-            // Optionally, you can rethrow the exception if you want the test to fail in case of an error during file deletion
-            // throw new RuntimeException("Failed to delete test file", e);
         }
     }
 
@@ -99,14 +88,14 @@ public class TestPlayer {
         assertEquals(deck1, player1.getDeckToPassTo());
     }
 
-
-
+    // Tests that draw card removes a card from the deck and adds it to the player's hand
     @Test
     public void testDrawCard() {
         int initialDeckSize = deck1.getDeckCards().size();
+        int initialPlayerSize = player1.getPlayerHand().size();
         player1.drawCard();
         assertEquals(initialDeckSize - 1, deck1.getDeckCards().size());
-        assertEquals(5, player1.getPlayerHand().size());
+        assertEquals(initialPlayerSize + 1, player1.getPlayerHand().size());
     }
 
     // Test for handling empty deck in drawCard
@@ -132,6 +121,7 @@ public class TestPlayer {
         assertEquals(card.getValue(), 2);
     }
 
+    // Player 2 has a winning hand and player 1 does not so only player 2 should win
     @Test
     public void testCheckWin(){
         assertFalse(player1.checkWin());

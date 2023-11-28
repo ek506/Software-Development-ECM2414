@@ -3,15 +3,12 @@ import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class TestCardGame {
-
     //Resets players and decks lists before each test
     @Before
     public void setUp() {
@@ -31,8 +28,6 @@ public class TestCardGame {
             Files.deleteIfExists(Paths.get("player2_output.txt"));
         } catch (IOException e) {
             e.printStackTrace();
-            // Optionally, you can rethrow the exception if you want the test to fail in case of an error during file deletion
-            // throw new RuntimeException("Failed to delete test file", e);
         }
     }
 
@@ -42,9 +37,9 @@ public class TestCardGame {
         assertFalse(CardGame.isValidNumPlayers(1));
     }
 
+    // Tests valid pack, pack with too many cards, pack containing non integers, pack containing negative numbers, and incorrect file location
     @Test
     public void testIsValidPack() {
-        // You'll need to create a valid and an invalid pack file for this test
         assertTrue(CardGame.isValidPack("TestPacks/Valid4PlayerPack.txt", 4));
         assertFalse(CardGame.isValidPack("TestPacks/4PlayerPack_TooManyCards.txt", 4));
         assertFalse(CardGame.isValidPack("TestPacks/4PlayerPack_NotIntegers.txt", 4));
@@ -52,11 +47,10 @@ public class TestCardGame {
         assertFalse(CardGame.isValidPack("Not_Real_File.txt", 4));
     }
 
+    //Tests the first card is correct and the number of cards created is correct
     @Test
     public void testReadCards() throws IOException {
-        // Assuming "valid_pack.txt" is a valid pack file
         ArrayList<Card> cards = CardGame.readCards("TestPacks/Valid4PlayerPack.txt");
-        // Verify cards read correctly. For example, if you know the first card in the pack:
         assertEquals(1, cards.get(0).getValue());
         assertEquals(32, cards.size());
     }
@@ -64,7 +58,6 @@ public class TestCardGame {
     @Test
     public void testSplitDeck() {
         ArrayList<Card> cards = new ArrayList<>();
-        // Populate cards with known values
         for (int i = 1; i <= 16; i++) {
             cards.add(new Card(i));
         }
@@ -85,10 +78,7 @@ public class TestCardGame {
 
     @Test
     public void testCreatePlayers() {
-
-        // Create a list of hands
         ArrayList<ArrayList<Card>> hands = new ArrayList<>();
-        // Populate hands with cards
         for (int i = 1; i < 5; i++) {
             ArrayList<Card> hand = new ArrayList<>();
             hand.add(new Card(i));
@@ -96,6 +86,8 @@ public class TestCardGame {
         }
         ArrayList<Player> players = new ArrayList<>();
         CardGame.createPlayers(hands, 2, players);
+
+        // Verify correct number of players
         assertEquals(2, players.size());
         // Verify player 1's hand
         assertEquals(1, players.get(0).getPlayerHand().get(0).getValue());
@@ -111,11 +103,14 @@ public class TestCardGame {
         }
         ArrayList<Deck> decks = new ArrayList<>();
         CardGame.createDecks(hands, 2, decks);
+
+        // Verify correct number of decks
         assertEquals(2, decks.size());
         // Verify deck 1's card
         assertEquals(3, decks.get(0).getDeckCards().get(0).getValue());
     }
 
+    // Gives a player a winning hand and tests if that player wins
     @Test
     public void testCheckInitialWinTrue() {
         ArrayList <Card> cards1 = new ArrayList<>();
@@ -135,9 +130,11 @@ public class TestCardGame {
         CardGame.players = players;
 
         assertTrue(CardGame.checkInitialWin());
+        assertEquals(1, Player.getWinner());
 
     }
 
+    // 
     @Test
     public void testCheckInitialWinFalse() {
         ArrayList <Card> cards1 = new ArrayList<>();
@@ -157,6 +154,7 @@ public class TestCardGame {
         CardGame.players = players;
 
         assertFalse(CardGame.checkInitialWin());
+        assertEquals(-1, Player.getWinner());
     }
 
     @Test
@@ -209,12 +207,10 @@ public class TestCardGame {
         }
     }
 
+    // Uses a pack where player 1 should  win and checks if player 1 wins
     @Test
     public void testPlayerOneWins() {
-
         CardGame.newGame(2, "TestPacks/Valid2PlayerPack_Player1Wins.txt");
-
-        // Verify that Player 1 is the winner
         assertEquals(1, Player.getWinner());
     }
 

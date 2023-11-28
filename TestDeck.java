@@ -26,8 +26,6 @@ public class TestDeck {
             Files.deleteIfExists(Paths.get("deck1_output.txt"));
         } catch (IOException e) {
             e.printStackTrace();
-            // Optionally, you can rethrow the exception if you want the test to fail in case of an error during file deletion
-            // throw new RuntimeException("Failed to delete test file", e);
         }
     }
 

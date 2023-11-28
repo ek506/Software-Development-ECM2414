@@ -57,10 +57,16 @@ public class Player implements Runnable {
         writeToFile("Player " + playerNumber + " initial hand " + showHand() + "\n", false);
     }
 
+    /**
+     * Resets the gameOver variable to false
+     */
     public static void resetGameOver() {
         gameOver = false;
     }
     
+    /**
+     * Resets the winner variable to -1
+     */
     public static void resetWinner() {
         winner = -1;
     }
@@ -282,6 +288,4 @@ public class Player implements Runnable {
                         + "player " + playerNumber + " hand: " + showHand() + "\n");
         writeToFile(message, true);
     }
-
-
 }

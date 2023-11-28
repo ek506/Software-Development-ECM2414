@@ -21,6 +21,12 @@ public class CardGame {
      */
     static ArrayList<Deck> decks = new ArrayList<Deck>();
 
+    /**
+     * Main method that runs the game
+     * Asks the user for the number of players and the location of the pack to load
+     * Creates a new game with the given number of players and location of the pack to load
+     * @param args 
+     */
     public static void main(String[] args) {
         try{    
             int numPlayers = inputNumPlayers();
@@ -32,7 +38,7 @@ public class CardGame {
     }
 
     /**
-     * Creates a new game by asking user for number of players and the location of the pack to load and then setting up and ruunning the game
+     * Creates a new game with a given number of players and location of the pack to load. Sets up threads and runs the game
      * Prints the winner of the game to the console
      * 
      */
@@ -89,8 +95,9 @@ public class CardGame {
 
     /**
      * Asks the user for the number of players and returns the number
-     * Loops until a valid number is entered
+     * Loops until a valid number is entered or 10 invalid inputs are entered
      * @return the number of players
+     * @throws IllegalArgumentException if no valid number of players is entered after 10 tries
      */
     public static int inputNumPlayers() throws IllegalArgumentException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -120,9 +127,10 @@ public class CardGame {
 
     /**
      * Asks the user for the location of the pack to load and returns the filename
-     * Loops until a valid pack is entered
+     * Loops until a valid pack is entered or 10 invalid inputs are entered
      * @param numPlayers
-     * @return
+     * @return the filename of the pack to load
+     * @throws IllegalArgumentException if no valid pack is entered after 10 tries
      */
     public static String inputFilename(int numPlayers) throws IllegalArgumentException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
